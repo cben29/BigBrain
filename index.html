@@ -57,8 +57,7 @@
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${OPENAI_API_KEY}`, // Use the variable here
-}`, // Add your API key here
+            "Authorization": `Bearer ${OPENAI_API_KEY}`, // Fixed this line
           },
           body: JSON.stringify({
             model: "gpt-3.5-turbo",
