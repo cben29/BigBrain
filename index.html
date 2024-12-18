@@ -43,7 +43,7 @@
 </head>
 <body>
   <h1>BigBrain</h1>
-  <p>Poke BigBrain with your questions:</p>
+  <p>Poke BigBrain's big brain with your questions:</p>
   <input type="text" id="question" placeholder="Your question here" />
   <button onclick="generateAnswer()">Poke</button>
   <div id="answer"></div>
@@ -54,21 +54,22 @@
       const answerDiv = document.getElementById('answer');
 
       if (!userQuestion) {
-        answerDiv.textContent = "Please poke BigBrain with a question!";
+        answerDiv.textContent = "Please poke BigBrain's big brain with a question!";
         return;
       }
 
-      answerDiv.textContent = "Thinking... 🤔";
+      answerDiv.textContent = "BigBrain is using his big brain... 🤔";
 
       try {
-        // Replace 'YOUR_BOTPRESS_API_ENDPOINT' with your Botpress or AI endpoint
-        const response = await fetch('https://cdn.botpress.cloud/webchat/v2.2/shareable.html?configUrl=https://files.bpcontent.cloud/2024/12/18/00/20241218000141-F5LNMILT.json', {
+        // Replace 'YOUR_API_ENDPOINT' with the proper Botpress API endpoint
+        const response = await fetch('https://webhook.botpress.cloud/0927b9b4-e78d-4de2-a653-d7df95f9577f', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            // Add any required authentication headers if needed
           },
           body: JSON.stringify({
-            question: userQuestion, // Adapt this payload to match your AI's requirements
+            question: userQuestion // Adjust this payload if your API expects a different structure
           }),
         });
 
