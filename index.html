@@ -68,7 +68,7 @@
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            text: userQuestion // Use "text" as it's common for Botpress payloads
+            text: userQuestion // Send the user's question
           }),
         });
 
@@ -78,10 +78,13 @@
 
         // Parse the JSON response
         const data = await response.json();
+        
+        // Log the response to inspect the full structure
+        console.log("Webhook response:", data);
 
-        // Update the UI with the bot's response
-        if (data && data.text) { // Adjust key to match actual Botpress response
-          answerDiv.textContent = `BigBrain says: "${data.text}"`;
+        // Check if the response contains the expected answer
+        if (data && data.text) {
+          answerDiv.textContent = `BigBrain says: "${data.text}"`; // Adjust according to your response structure
         } else {
           answerDiv.textContent = "Hmm... BigBrain is speechless. Try again!";
         }
