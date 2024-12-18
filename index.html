@@ -61,15 +61,14 @@
       answerDiv.textContent = "BigBrain is using his big brain... 🤔";
 
       try {
-        // Replace 'YOUR_API_ENDPOINT' with the proper Botpress API endpoint
+        // Call Botpress webhook with the user's question
         const response = await fetch('https://webhook.botpress.cloud/0927b9b4-e78d-4de2-a653-d7df95f9577f', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            // Add any required authentication headers if needed
           },
           body: JSON.stringify({
-            question: userQuestion // Adjust this payload if your API expects a different structure
+            question: userQuestion // Send the user's question in the expected format
           }),
         });
 
@@ -77,8 +76,15 @@
           throw new Error('Error fetching response');
         }
 
+        // Parse the JSON response
         const data = await response.json();
-        answerDiv.textContent = `BigBrain says: "${data.answer}"`; // Adjust based on API response format
+
+        // Update the UI with the bot's response
+        if (data && data.response) {
+          answerDiv.textContent = `BigBrain says: "${data.response}"`;
+        } else {
+          answerDiv.textContent = "Hmm... BigBrain is speechless. Try again!";
+        }
       } catch (error) {
         console.error('Error fetching response:', error);
         answerDiv.textContent = "Oops! BigBrain went to sleep! Poke him again!";
