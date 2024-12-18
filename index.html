@@ -68,7 +68,7 @@
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            text: userQuestion, // Send the user's question
+            text: userQuestion  // Send the user's question as a JSON object
           }),
         });
 
@@ -76,7 +76,7 @@
           throw new Error(`Error fetching response: ${response.status}`);
         }
 
-        // Parse the JSON response
+        // Parse the JSON response from the Cloudflare Worker
         const data = await response.json();
 
         // Update the UI with BigBrain's answer
