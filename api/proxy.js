@@ -1,25 +1,27 @@
 export default async function handler(req, res) {
   // Handle OPTIONS request for CORS preflight
   if (req.method === 'OPTIONS') {
-    // Log the incoming OPTIONS request to debug
-    console.log('CORS Preflight request received');
+    // Log the incoming OPTIONS request to help with debugging
+    console.log('Handling CORS preflight request');
 
-    res.setHeader('Access-Control-Allow-Origin', 'https://cben29.github.io');  // Specify the exact origin for better security
+    // Set CORS headers
+    res.setHeader('Access-Control-Allow-Origin', 'https://cben29.github.io');  // Allow only from your GitHub Pages
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    return res.status(200).end(); // Respond with status 200 for the preflight
+    
+    return res.status(200).end(); // Respond successfully to preflight request
   }
 
-  // Handle POST request for fetching data from Botpress
+  // Handle POST request for forwarding to Botpress
   if (req.method === 'POST') {
-    // Log the incoming POST request to debug
-    console.log('POST request received with body:', req.body);
+    // Log the incoming POST request data to debug
+    console.log('Handling POST request with body:', req.body);
 
-    // Set CORS headers for the POST request
-    res.setHeader('Access-Control-Allow-Origin', 'https://cben29.github.io');  // Specify the exact origin for better security
+    // Set CORS headers for POST request
+    res.setHeader('Access-Control-Allow-Origin', 'https://cben29.github.io');  // Allow only from your GitHub Pages
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
+    
     try {
       const userQuestion = req.body.text;  // Extract the user's question
       console.log('User question:', userQuestion);
@@ -33,22 +35,22 @@ export default async function handler(req, res) {
         body: JSON.stringify({ text: userQuestion }),
       });
 
-      // Check if Botpress responded successfully
+      // If Botpress responded with an error, handle it
       if (!response.ok) {
         return res.status(500).json({ error: 'Failed to fetch response from Botpress' });
       }
 
-      // Parse the Botpress response and return it to the front-end
+      // Get the Botpress response and return it to the front-end
       const data = await response.json();
       console.log('Botpress response:', data);
-
       return res.status(200).json(data);
+
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error occurred:', error);
       return res.status(500).json({ error: 'Error forwarding request to Botpress' });
     }
   }
 
-  // If any other method is used, respond with Method Not Allowed
+  // If any other HTTP method is used, respond with Method Not Allowed
   return res.status(405).json({ error: 'Method not allowed' });
 }
