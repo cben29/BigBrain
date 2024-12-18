@@ -30,53 +30,55 @@
 </head>
 <body>
   <h1>BigBrain</h1>
-  <p>Use BigBrain's Big Brain by giving him a poke:</p>
+  <p>Poke BigBrain's Big Brain with your questions:</p>
   <input type="text" id="question" placeholder="Your question here" />
   <button onclick="pokeBigBrain()">Poke</button>
   <div id="answer"></div>
 
   <script>
-    // Replace with your Botpress server URL and bot name
-    const BOTPRESS_URL = 'https://cdn.botpress.cloud/webchat/v2.2/shareable.html?configUrl=https://files.bpcontent.cloud/2024/12/18/00/20241218000141-F5LNMILT.json';
-    
+    // Replace with your Botpress API endpoint
+    const BOTPRESS_URL = 'http://localhost:3000/api/v1/bots/bigbrain/converse';
+
     async function pokeBigBrain() {
-      const userQuestion = document.getElementById("question").value;
-      const answerDiv = document.getElementById("answer");
+      const userQuestion = document.getElementById('question').value;
+      const answerDiv = document.getElementById('answer');
 
       if (!userQuestion) {
-        answerDiv.textContent = "Please give BigBrain a poke with a question!";
+        answerDiv.textContent = 'Please poke BigBrain with a question!';
         return;
       }
 
-      // Show loading text while waiting for the API response
-      answerDiv.textContent = "BigBrain is using his big brain... 🤔";
+      // Show loading message
+      answerDiv.textContent = 'Thinking... 🤔';
 
       try {
-        // Make a POST request to the Botpress API
-        const response = await fetch(`${BOTPRESS_URL}/user1`, { // user1 can be a unique user identifier
-          method: "POST",
+        const response = await fetch(BOTPRESS_URL, {
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            type: "text",
-            text: userQuestion, // Send user input as the text message
+            type: 'text', // Assuming text type
+            text: userQuestion,
+            sessionId: 'user-session-123', // A unique session ID for the user
           }),
         });
 
-        // Check if the response is OK
+        // Check if the response is successful
         if (!response.ok) {
-          throw new Error("Failed to poke BigBrain.");
+          throw new Error(`Error: ${response.status} - ${response.statusText}`);
         }
 
-        // Parse the response and display it
+        // Parse the response
         const data = await response.json();
-        const aiAnswer = data.payload[0]?.text || "Hmm, BigBrain's big brain is thinking...";
+        const botResponse = data.responses[0]?.text || "Hmm, BigBrain doesn't know what to say.";
 
-        answerDiv.textContent = aiAnswer;
+        // Display the response
+        answerDiv.textContent = botResponse;
       } catch (error) {
-        console.error("Error fetching response:", error);
-        answerDiv.textContent = "Oops! BigBrain went to sleep! Poke him again!";
+        // Log the error and display a friendly message
+        console.error('Error fetching response:', error);
+        answerDiv.textContent = 'Oops! Something went wrong. Check the console for details.';
       }
     }
   </script>
