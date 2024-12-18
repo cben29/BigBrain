@@ -61,14 +61,14 @@
       answerDiv.textContent = "BigBrain is using his big brain... 🤔";
 
       try {
-        // Call the Vercel serverless function endpoint instead of Botpress directly
-        const response = await fetch('https://bigbrain-apewc0pyq-claires-projects-7fcbbab6.vercel.app/api/proxy', {
+        // Call the Cloudflare Worker endpoint
+        const response = await fetch('https://bigbrainproxy.fluffyfriend1000.workers.dev/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            text: userQuestion  // Send the user's question as a JSON object
+            text: userQuestion, // Send the user's question
           }),
         });
 
@@ -76,7 +76,7 @@
           throw new Error(`Error fetching response: ${response.status}`);
         }
 
-        // Parse the JSON response from the Vercel function
+        // Parse the JSON response
         const data = await response.json();
 
         // Update the UI with BigBrain's answer
