@@ -2,12 +2,13 @@
 
 export default async function handler(req, res) {
   // Allow requests from your GitHub Pages domain
-  res.setHeader('Access-Control-Allow-Origin', 'https://cben29.github.io'); // Add your front-end domain
-  res.setHeader('Access-Control-Allow-Methods', 'GET,POST'); // Allow GET and POST methods
+  res.setHeader('Access-Control-Allow-Origin', 'https://cben29.github.io'); // Allow your domain here
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST'); // Allow only GET and POST methods
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type'); // Allow Content-Type header
 
-  // Handle preflight requests (OPTIONS)
+  // Handle preflight requests (OPTIONS request)
   if (req.method === 'OPTIONS') {
+    // Respond with status 200 to handle preflight request
     return res.status(200).end();
   }
 
