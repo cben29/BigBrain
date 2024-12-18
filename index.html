@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BigBrain</title>
+  <title>Chat with BigBrain</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -26,60 +26,70 @@
       font-style: italic;
       color: #555;
     }
+    button {
+      margin: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    iframe#botpress-webchat {
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      width: 350px;
+      height: 500px;
+      border: none;
+      z-index: 1000;
+    }
   </style>
 </head>
 <body>
-  <h1>BigBrain</h1>
-  <p>Poke BigBrain's Big Brain with your questions:</p>
+  <h1>Chat with BigBrain</h1>
+  <p>Poke BigBrain with a question directly or use the chat widget:</p>
   <input type="text" id="question" placeholder="Your question here" />
-  <button onclick="pokeBigBrain()">Poke</button>
+  <button onclick="generateAnswer()">Poke</button>
   <div id="answer"></div>
+  <button onclick="openChat()">Open Chat Widget</button>
 
   <script>
-    // Replace with your Botpress API endpoint
-    const BOTPRESS_URL = 'http://localhost:3000/api/v1/bots/bigbrain/converse';
+    // Place your Botpress Webchat widget URL here
+    // Example format: https://cdn.botpress.cloud/webchat/v2.2/shareable.html?configUrl=YOUR_CONFIG_URL
+    const BOTPRESS_WIDGET_URL = 'https://cdn.botpress.cloud/webchat/v2.2/shareable.html?configUrl=https://files.bpcontent.cloud/2024/12/18/00/20241218000141-F5LNMILT.json'; 
+    // ^ Replace the `configUrl` value with your Botpress configuration URL.
 
-    async function pokeBigBrain() {
+    // Function to open the Botpress Webchat widget
+    function openChat() {
+      if (!document.getElementById('botpress-webchat')) {
+        const chatIframe = document.createElement('iframe');
+        chatIframe.id = 'botpress-webchat';
+        chatIframe.src = BOTPRESS_WIDGET_URL; // The URL defined above is used here.
+        document.body.appendChild(chatIframe);
+      }
+    }
+
+    // Mock response function for Poke BigBrain
+    async function generateAnswer() {
       const userQuestion = document.getElementById('question').value;
       const answerDiv = document.getElementById('answer');
 
       if (!userQuestion) {
-        answerDiv.textContent = 'Please poke BigBrain with a question!';
+        answerDiv.textContent = "Please poke BigBrain with a question!";
         return;
       }
 
-      // Show loading message
-      answerDiv.textContent = 'Thinking... 🤔';
+      // Replace this logic with a Botpress API call or backend processing if needed
+      answerDiv.textContent = "Thinking... 🤔";
 
-      try {
-        const response = await fetch(BOTPRESS_URL, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            type: 'text', // Assuming text type
-            text: userQuestion,
-            sessionId: 'user-session-123', // A unique session ID for the user
-          }),
-        });
-
-        // Check if the response is successful
-        if (!response.ok) {
-          throw new Error(`Error: ${response.status} - ${response.statusText}`);
-        }
-
-        // Parse the response
-        const data = await response.json();
-        const botResponse = data.responses[0]?.text || "Hmm, BigBrain doesn't know what to say.";
-
-        // Display the response
-        answerDiv.textContent = botResponse;
-      } catch (error) {
-        // Log the error and display a friendly message
-        console.error('Error fetching response:', error);
-        answerDiv.textContent = 'Oops! Something went wrong. Check the console for details.';
-      }
+      setTimeout(() => {
+        answerDiv.textContent = `BigBrain says: "${userQuestion}? Hmm, that reminds me of a pineapple!"`;
+      }, 1500);
     }
   </script>
 </body>
