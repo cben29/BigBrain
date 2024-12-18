@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BigBrain</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f9fa;
+      color: #333;
+    }
+    h1 {
+      margin-top: 50px;
+    }
+    input, button {
+      margin: 10px;
+      padding: 10px;
+      font-size: 16px;
+    }
+    #answer {
+      margin-top: 20px;
+      font-style: italic;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <h1>BigBrain</h1>
+  <p>Use BigBrain's Big Brain by giving him a poke:</p>
+  <input type="text" id="question" placeholder="Your question here" />
+  <button onclick="pokeBigBrain()">Poke</button>
+  <div id="answer"></div>
+
+  <script>
+    // Replace with your Botpress server URL and bot name
+    const BOTPRESS_URL = 'https://cdn.botpress.cloud/webchat/v2.2/shareable.html?configUrl=https://files.bpcontent.cloud/2024/12/18/00/20241218000141-F5LNMILT.json';
+    
+    async function pokeBigBrain() {
+      const userQuestion = document.getElementById("question").value;
+      const answerDiv = document.getElementById("answer");
+
+      if (!userQuestion) {
+        answerDiv.textContent = "Please give BigBrain a poke with a question!";
+        return;
+      }
+
+      // Show loading text while waiting for the API response
+      answerDiv.textContent = "BigBrain is using his big brain... 🤔";
+
+      try {
+        // Make a POST request to the Botpress API
+        const response = await fetch(`${BOTPRESS_URL}/user1`, { // user1 can be a unique user identifier
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            type: "text",
+            text: userQuestion, // Send user input as the text message
+          }),
+        });
+
+        // Check if the response is OK
+        if (!response.ok) {
+          throw new Error("Failed to poke BigBrain.");
+        }
+
+        // Parse the response and display it
+        const data = await response.json();
+        const aiAnswer = data.payload[0]?.text || "Hmm, BigBrain's big brain is thinking...";
+
+        answerDiv.textContent = aiAnswer;
+      } catch (error) {
+        console.error("Error fetching response:", error);
+        answerDiv.textContent = "Oops! BigBrain went to sleep! Poke him again!";
+      }
+    }
+  </script>
+</body>
+</html>
