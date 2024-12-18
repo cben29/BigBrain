@@ -1,29 +1,35 @@
-// api/proxy.js
-import fetch from 'node-fetch';
+// /api/proxy.js
 
 export default async function handler(req, res) {
-  if (req.method === 'POST') {
-    const userQuestion = req.body.text;
+  // Allow requests from your GitHub Pages domain
+  res.setHeader('Access-Control-Allow-Origin', 'https://cben29.github.io'); // Add your front-end domain
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST'); // Allow GET and POST methods
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type'); // Allow Content-Type header
 
+  // Handle preflight requests (OPTIONS)
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
+  if (req.method === 'POST') {
+    // Your webhook handling logic
     try {
-      const response = await fetch('https://webhook.botpress.cloud/e775a3c6-d30b-439b-afdd-0535b4edb42f', {
+      const { text } = req.body; // Get the question from the frontend
+      const response = await fetch('YOUR_WEBHOOK_URL', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ text: userQuestion }),
+        body: JSON.stringify({ text }),
       });
 
-      if (!response.ok) {
-        return res.status(response.status).json({ error: 'Error from Botpress webhook' });
-      }
-
       const data = await response.json();
-      res.status(200).json(data);
+      return res.status(200).json({ text: data.answer || "No response from webhook" }); // Adjust based on webhook response
     } catch (error) {
-      res.status(500).json({ error: 'Internal Server Error' });
+      return res.status(500).json({ error: 'Error handling request' });
     }
-  } else {
-    res.status(405).json({ error: 'Method Not Allowed' });
   }
+
+  // Handle other methods (if needed)
+  res.status(405).json({ error: 'Method Not Allowed' });
 }
