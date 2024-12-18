@@ -44,3 +44,45 @@ export default async function handler(req, res) {
   // If it's an unsupported HTTP method, return Method Not Allowed
   return res.status(405).json({ error: 'Method Not Allowed' });
 }
+
+export default async function handler(req, res) {
+  // Set CORS headers
+  res.setHeader('Access-Control-Allow-Origin', '*'); // Allow requests from all origins
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  
+  // Handle preflight OPTIONS request (required for CORS)
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
+  // Your existing logic for handling POST request and forwarding it to Botpress webhook
+  if (req.method === 'POST') {
+    try {
+      const userQuestion = req.body.text;
+
+      // Send the request to your Botpress webhook
+      const response = await fetch('https://webhook.botpress.cloud/e775a3c6-d30b-439b-afdd-0535b4edb42f', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          text: userQuestion,
+        }),
+      });
+
+      if (!response.ok) {
+        return res.status(500).json({ error: 'Failed to fetch response from Botpress' });
+      }
+
+      const data = await response.json();
+      return res.status(200).json(data);
+    } catch (error) {
+      return res.status(500).json({ error: 'Error forwarding request to Botpress' });
+    }
+  }
+
+  // Handle unsupported methods
+  return res.status(405).json({ error: 'Method not allowed' });
+}
