@@ -68,20 +68,20 @@
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            question: userQuestion // Send the user's question in the expected format
+            text: userQuestion // Use "text" as it is common for Botpress payloads
           }),
         });
 
         if (!response.ok) {
-          throw new Error('Error fetching response');
+          throw new Error(`Error fetching response: ${response.status}`);
         }
 
         // Parse the JSON response
         const data = await response.json();
 
         // Update the UI with the bot's response
-        if (data && data.response) {
-          answerDiv.textContent = `BigBrain says: "${data.response}"`;
+        if (data && data.text) { // Adjust key to match actual Botpress response
+          answerDiv.textContent = `BigBrain says: "${data.text}"`;
         } else {
           answerDiv.textContent = "Hmm... BigBrain is speechless. Try again!";
         }
