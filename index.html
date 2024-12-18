@@ -39,56 +39,48 @@
     button:hover {
       background-color: #0056b3;
     }
+    #bot-container {
+      margin-top: 20px;
+      height: 500px;
+      width: 100%;
+      max-width: 600px;
+      margin: 50px auto;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
   </style>
 </head>
 <body>
   <h1>BigBrain</h1>
   <p>Poke BigBrain's big brain with your questions:</p>
   <input type="text" id="question" placeholder="Your question here" />
-  <button onclick="generateAnswer()">Poke</button>
+  <button onclick="showChat()">Poke</button>
   <div id="answer"></div>
 
+  <!-- Chat container -->
+  <div id="bot-container" style="display: none;">
+    <iframe 
+      src="https://cdn.botpress.cloud/webchat/v2.2/shareable.html?configUrl=https://files.bpcontent.cloud/2024/12/18/00/20241218000141-F5LNMILT.json" 
+      frameborder="0"
+      style="width: 100%; height: 100%; border: none;">
+    </iframe>
+  </div>
+
   <script>
-    async function generateAnswer() {
+    function showChat() {
       const userQuestion = document.getElementById('question').value;
       const answerDiv = document.getElementById('answer');
+      const botContainer = document.getElementById('bot-container');
 
       if (!userQuestion) {
         answerDiv.textContent = "Please poke BigBrain's big brain with a question!";
         return;
       }
 
-      answerDiv.textContent = "BigBrain is using his big brain... 🤔";
-
-      try {
-        // Call Botpress webhook with the user's question
-        const response = await fetch('https://webhook.botpress.cloud/0927b9b4-e78d-4de2-a653-d7df95f9577f', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            text: userQuestion // Use "text" as it is common for Botpress payloads
-          }),
-        });
-
-        if (!response.ok) {
-          throw new Error(`Error fetching response: ${response.status}`);
-        }
-
-        // Parse the JSON response
-        const data = await response.json();
-
-        // Update the UI with the bot's response
-        if (data && data.text) { // Adjust key to match actual Botpress response
-          answerDiv.textContent = `BigBrain says: "${data.text}"`;
-        } else {
-          answerDiv.textContent = "Hmm... BigBrain is speechless. Try again!";
-        }
-      } catch (error) {
-        console.error('Error fetching response:', error);
-        answerDiv.textContent = "Oops! BigBrain went to sleep! Poke him again!";
-      }
+      answerDiv.textContent = `BigBrain is thinking about: "${userQuestion}"`;
+      botContainer.style.display = "block"; // Show the chatbot
     }
   </script>
 </body>
