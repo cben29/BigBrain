@@ -1,21 +1,22 @@
 export default async function handler(req, res) {
-  // Handle OPTIONS request for CORS preflight (needed for browsers to check permissions)
+  // Handle OPTIONS request for CORS preflight
   if (req.method === 'OPTIONS') {
-    // Log the incoming OPTIONS request to see what's happening
+    // Log the incoming OPTIONS request to debug
     console.log('CORS Preflight request received');
-    
-    res.setHeader('Access-Control-Allow-Origin', '*');  // Allow all origins (replace '*' with your domain if needed)
+
+    res.setHeader('Access-Control-Allow-Origin', 'https://cben29.github.io');  // Specify the exact origin for better security
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    return res.status(200).end(); // End the preflight request successfully
+    return res.status(200).end(); // Respond with status 200 for the preflight
   }
 
-  // Handle POST request
+  // Handle POST request for fetching data from Botpress
   if (req.method === 'POST') {
-    // Log the incoming POST request
+    // Log the incoming POST request to debug
     console.log('POST request received with body:', req.body);
 
-    res.setHeader('Access-Control-Allow-Origin', '*');  // Allow all origins (replace '*' with your domain if needed)
+    // Set CORS headers for the POST request
+    res.setHeader('Access-Control-Allow-Origin', 'https://cben29.github.io');  // Specify the exact origin for better security
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
