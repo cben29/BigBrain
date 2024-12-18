@@ -76,7 +76,7 @@
           throw new Error(`Error fetching response: ${response.status}`);
         }
 
-        // Parse the JSON response from the Cloudflare Worker
+        // Parse the JSON response from the worker
         const data = await response.json();
 
         // Update the UI with BigBrain's answer
