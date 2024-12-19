@@ -5,33 +5,70 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BigBrain</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
+    /* General Reset */
+    * {
       margin: 0;
       padding: 0;
-      background-color: #f8f9fa;
-      color: #333;
+      box-sizing: border-box;
     }
+
+    /* Body Styling */
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: #fff;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    /* Heading Styling */
     h1 {
-      margin-top: 50px;
+      font-size: 3rem;
+      margin-bottom: 10px;
+      font-weight: bold;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
     }
+
+    /* Paragraph Styling */
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      color: #f0f0f0;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Iframe Styling */
     iframe {
-      width: 100%;
-      height: 600px;
-      border: none;
+      width: 80%;
+      height: 500px;
+      border: 5px solid #fff;
+      border-radius: 15px;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+      background-color: #f8f9fa;
+    }
+
+    /* Footer Styling */
+    footer {
       margin-top: 20px;
+      font-size: 0.9rem;
+      color: #ddd;
     }
   </style>
 </head>
 <body>
   <h1>BigBrain</h1>
-  <p>Interact with BigBrain below:</p>
-  
+  <p>Poke BigBrain's big brain with your questions below:</p>
+
   <!-- Embed Botpress Webchat -->
   <iframe
     src="https://cdn.botpress.cloud/webchat/v2.2/shareable.html?configUrl=https://files.bpcontent.cloud/2024/12/18/00/20241218000141-F5LNMILT.json"
     title="BigBrain Webchat">
   </iframe>
+
+  <footer>Powered by BigBrain | Created with ❤️</footer>
 </body>
 </html>
