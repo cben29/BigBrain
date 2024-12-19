@@ -39,6 +39,9 @@
     button:hover {
       background-color: #0056b3;
     }
+    iframe {
+      display: none; /* Hide the iframe */
+    }
   </style>
 </head>
 <body>
@@ -47,6 +50,13 @@
   <input type="text" id="question" placeholder="Your question here" />
   <button onclick="generateAnswer()">Poke</button>
   <div id="answer"></div>
+
+  <!-- Hidden iframe for Botpress Webchat -->
+  <iframe
+    id="botpressWebchat"
+    src="https://cdn.botpress.cloud/webchat/v2.2/shareable.html?configUrl=https://files.bpcontent.cloud/2024/12/18/00/20241218000141-F5LNMILT.json"
+    title="BigBrain Webchat">
+  </iframe>
 
   <script>
     async function generateAnswer() {
@@ -61,8 +71,11 @@
       answerDiv.textContent = "BigBrain is using his big brain... 🤔";
 
       try {
-        // Call the Cloudflare Worker endpoint
-        const response = await fetch('https://bigbrainproxy.fluffyfriend1000.workers.dev/', {
+        // Use Webchat iframe to "ask" BigBrain
+        const iframe = document.getElementById('botpressWebchat');
+        const configUrl = iframe.src; // Use the iframe's config URL for processing
+
+        const response = await fetch(configUrl, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -76,7 +89,7 @@
           throw new Error(`Error fetching response: ${response.status}`);
         }
 
-        // Parse the JSON response from the worker
+        // Parse the JSON response from the Botpress Webchat
         const data = await response.json();
 
         // Update the UI with BigBrain's answer
