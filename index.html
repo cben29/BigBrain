@@ -4,79 +4,76 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BigBrain</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    /* General Reset */
-    * {
+    body {
+      font-family: 'Dancing Script', cursive;
+      text-align: center;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
+      background: linear-gradient(135deg, #FF7E5F, #FEB47B);
+      color: #FFF8F0;
     }
 
-    /* Body Styling */
-    body {
-      font-family: 'Playfair Display', serif;
+    h1 {
+      margin-top: 50px;
+      font-size: 3rem;
+      color: #FFF;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      color: #FFF8F0;
+    }
+
+    iframe {
+      width: 90%;
+      height: 600px;
+      border: 2px solid #FFD9C2;
+      border-radius: 15px;
+      box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
       background: linear-gradient(135deg, #FF7E5F, #FEB47B);
-      color: #fff;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
       padding: 20px;
     }
 
-    /* Heading Styling */
-    h1 {
-      font-size: 4rem;
-      margin-bottom: 10px;
-      font-weight: bold;
-      font-family: 'Dancing Script', cursive;
-      color: #fff9e6;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    }
-
-    /* Paragraph Styling */
-    p {
-      font-size: 1.5rem;
-      margin-bottom: 30px;
-      color: #fff;
-      font-style: italic;
-      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-    }
-
-    /* Iframe Styling */
-    iframe {
-      width: 90%;
-      height: 500px;
-      border: none;
-      border-radius: 20px;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-      background-color: #fff8f2;
-    }
-
-    /* Footer Styling */
     footer {
-      margin-top: 20px;
+      margin-top: 30px;
       font-size: 1rem;
-      color: #ffedd8;
-      font-style: italic;
+      color: #FFD9C2;
+    }
+
+    footer a {
+      color: #FFF;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
     }
   </style>
-
-  <!-- Google Fonts for Romantic Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Playfair+Display:wght@400&display=swap" rel="stylesheet">
 </head>
 <body>
-  <h1>BigBrain</h1>
-  <p>Poke BigBrain's big brain with your questions:</p>
+  <div class="container">
+    <h1>BigBrain</h1>
+    <p>Poke BigBrain's big brain with your questions:</p>
+    
+    <!-- Embed Botpress Webchat -->
+    <iframe
+      src="https://cdn.botpress.cloud/webchat/v2.2/shareable.html?configUrl=https://files.bpcontent.cloud/2024/12/18/00/20241218000141-F5LNMILT.json"
+      title="BigBrain Webchat">
+    </iframe>
+  </div>
 
-  <!-- Embed Botpress Webchat -->
-  <iframe
-    src="https://cdn.botpress.cloud/webchat/v2.2/shareable.html?configUrl=https://files.bpcontent.cloud/2024/12/18/00/20241218000141-F5LNMILT.json"
-    title="BigBrain Webchat">
-  </iframe>
-
-  <footer>Made with 💕 by BigBrain's big brain | Always here for you!</footer>
+  <footer>
+    <p>Powered by love and BigBrain's big brain.</p>
+  </footer>
 </body>
 </html>
